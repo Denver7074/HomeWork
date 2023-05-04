@@ -26,7 +26,8 @@ public class SubscriberService {
     public void saveJournal(String name, String patronymic, String surname, String birth){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate date = LocalDate.parse(birth, formatter);
-        Subscriber subscriber = new Subscriber(name,patronymic,surname,date);
+        int age = LocalDate.now().getYear() - date.getYear();
+        Subscriber subscriber = new Subscriber(name,patronymic,surname,date,age);
         clientRep.save(subscriber);
         log.info("Create new user. Name{}",name);
     }

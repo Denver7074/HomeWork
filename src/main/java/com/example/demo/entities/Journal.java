@@ -23,9 +23,10 @@ public class Journal {
     String description;
     LocalDate createJournal = LocalDate.now();
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    Subscriber subscriber;
-    public Journal(String title, String description) {
+    Organization organization;
+    public Journal(String title, String description,Organization organization) {
         this.title = title;
         this.description = description;
+        this.organization = organization;
     }
 }

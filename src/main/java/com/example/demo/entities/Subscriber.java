@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import com.example.demo.entities.enums.Role;
+import com.example.demo.entities.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -22,13 +24,16 @@ public class Subscriber {
     String name;
     String patronymic;
     String surname;
-    int age;
     LocalDate birth;
+    int age;
     LocalDate createDate = LocalDate.now();
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "subscriber")
-    List<Journal> journalList = new ArrayList<>();
-
-    public Subscriber(String name, String patronymic, String surname, LocalDate birth) {
+    @Enumerated(EnumType.STRING)
+    Role role;
+    @Enumerated(EnumType.STRING)
+    Status status;
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    Organization organization;
+    public Subscriber(String name, String patronymic, String surname, LocalDate birth, int age) {
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;

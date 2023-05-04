@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.entities.Journal;
+import com.example.demo.entities.Organization;
+import com.example.demo.entities.Subscriber;
 import com.example.demo.services.JournalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,8 +21,8 @@ public class JournalController {
 
     @GetMapping("/")
     @Operation(description = "Показать весь список журналов")
-    public List<Journal> getAllJournals() {
-        return journalService.findAll();
+    public List<Journal> getAllJournals(@PathVariable Organization organization) {
+        return journalService.findAll(organization);
     }
 
     @GetMapping("/{id}")
@@ -31,8 +33,8 @@ public class JournalController {
 
     @PostMapping("/")
     @Operation(description = "Создать новый журнал")
-    public void createJournal(@RequestBody String title, @RequestBody String description){
-        journalService.saveJournal(title,description);
+    public void createJournal(@RequestBody String title, @RequestBody String description, @RequestBody Organization organization){
+        journalService.saveJournal(title,description,organization);
     }
 
     @DeleteMapping("/{id}")
