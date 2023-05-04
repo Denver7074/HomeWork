@@ -1,9 +1,7 @@
 package com.example.demo.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Schema(description = "Информация о журнале")
 public class Journal {
 
     @Id
@@ -23,7 +22,8 @@ public class Journal {
     String title;
     String description;
     LocalDate createJournal = LocalDate.now();
-
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    Client client;
     public Journal(String title, String description) {
         this.title = title;
         this.description = description;

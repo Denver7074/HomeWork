@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.entities.Journal;
 import com.example.demo.repositories.JournalRep;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +31,12 @@ public class JournalService {
         Journal journal = new Journal(title,description);
         journalRep.save(journal);
         log.info("Create new journal. Journal{}", title);
-
     }
 
     public void deleteJournal(Long id){
-        journalRep.deleteById(id);
         String title = journalRep.findById(id).orElseThrow().getTitle();
         log.info("Delete journal. Journal{}", title);
+        journalRep.deleteById(id);
     }
 
     public List<Journal> findAll(){
@@ -45,11 +45,7 @@ public class JournalService {
     }
 
     public Journal findJournal(Long id) {
-        try {
-            Journal journal = journalRep.findById(id).orElseThrow();
-            return journal;
-        } catch (NoSuchElementException e) {
-            return null;
-        }
+        return journalRep.findById(id)
+                .orElseThrow(NoSuchElementException::new);
     }
 }
