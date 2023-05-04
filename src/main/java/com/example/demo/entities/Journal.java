@@ -23,7 +23,7 @@ public class Journal {
     String description;
     LocalDate createJournal = LocalDate.now();
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    Client client;
+    Subscriber subscriber;
     public Journal(String title, String description) {
         this.title = title;
         this.description = description;

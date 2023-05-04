@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Client {
+public class Subscriber {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,10 +25,10 @@ public class Client {
     int age;
     LocalDate birth;
     LocalDate createDate = LocalDate.now();
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "client")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "subscriber")
     List<Journal> journalList = new ArrayList<>();
 
-    public Client(String name, String patronymic, String surname, LocalDate birth) {
+    public Subscriber(String name, String patronymic, String surname, LocalDate birth) {
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;

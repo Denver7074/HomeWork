@@ -1,13 +1,11 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Client;
-import com.example.demo.entities.Journal;
-import com.example.demo.repositories.ClientRep;
+import com.example.demo.entities.Subscriber;
+import com.example.demo.repositories.SubscriberRep;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +19,15 @@ import java.util.NoSuchElementException;
 @Transactional
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true,level = AccessLevel.PRIVATE)
-public class ClientService {
+public class SubscriberService {
 
-    ClientRep clientRep;
+    SubscriberRep clientRep;
 
     public void saveJournal(String name, String patronymic, String surname, String birth){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate date = LocalDate.parse(birth, formatter);
-        Client client = new Client(name,patronymic,surname,date);
-        clientRep.save(client);
+        Subscriber subscriber = new Subscriber(name,patronymic,surname,date);
+        clientRep.save(subscriber);
         log.info("Create new user. Name{}",name);
     }
 
@@ -38,12 +36,12 @@ public class ClientService {
         clientRep.deleteById(id);
     }
 
-    public Client getById(Long id) {
+    public Subscriber getById(Long id) {
         return clientRep.findById(id)
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    public List<Client> findAll(){
+    public List<Subscriber> findAll(){
         return clientRep.findAll();
     }
 }
