@@ -1,19 +1,21 @@
 package com.example.demo.entities;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.Hibernate;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
+@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Schema(description = "Информация о журнале")
 public class Journal {
 
     @Id
@@ -29,4 +31,6 @@ public class Journal {
         this.description = description;
         this.organization = organization;
     }
+
+
 }

@@ -24,10 +24,9 @@ public class JournalService {
 
     JournalRep journalRep;
 
-    public void saveJournal(String title, String description, Organization organization){
-        Journal journal = new Journal(title,description,organization);
+    public void saveJournal(Journal journal){
         journalRep.save(journal);
-        log.info("Create new journal. Journal{}", title);
+        log.info("Create new journal. Journal{}", journal.getTitle());
     }
 
     public void deleteJournal(Long id){

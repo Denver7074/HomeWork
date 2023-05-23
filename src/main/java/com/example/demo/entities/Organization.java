@@ -20,6 +20,8 @@ public class Organization {
     Long id;
     String name;
     String accreditationNumber;
+    String area;
+    String workDescription;
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")
     List<Journal> journals = new ArrayList<>();
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")

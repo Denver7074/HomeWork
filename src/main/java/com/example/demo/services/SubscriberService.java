@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.entities.Organization;
 import com.example.demo.entities.Subscriber;
 import com.example.demo.repositories.SubscriberRep;
 import lombok.AccessLevel;
@@ -23,17 +24,17 @@ public class SubscriberService {
 
     SubscriberRep clientRep;
 
-    public void saveJournal(String name, String patronymic, String surname, String birth){
+    public void saveUser(String name, String patronymic, String surname, String birth, Organization organization){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate date = LocalDate.parse(birth, formatter);
         int age = LocalDate.now().getYear() - date.getYear();
-        Subscriber subscriber = new Subscriber(name,patronymic,surname,date,age);
+        Subscriber subscriber = new Subscriber(name,patronymic,surname,date,age,organization);
         clientRep.save(subscriber);
         log.info("Create new user. Name{}",name);
     }
 
-    public void deleteClient(Long id){
-        log.info("Delete journal. Name{}", getById(id).getName());
+    public void deleteUser(Long id){
+        log.info("Delete user. Name{}", getById(id).getName());
         clientRep.deleteById(id);
     }
 

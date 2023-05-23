@@ -33,10 +33,11 @@ public class Subscriber {
     Status status;
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     Organization organization;
-    public Subscriber(String name, String patronymic, String surname, LocalDate birth, int age) {
+    public Subscriber(String name, String patronymic, String surname, LocalDate birth, int age,Organization organization) {
         this.name = name;
         this.patronymic = patronymic;
         this.surname = surname;
         this.birth = birth;
+        this.organization = organization;
     }
 }
