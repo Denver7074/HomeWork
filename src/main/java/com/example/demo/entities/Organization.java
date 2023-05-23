@@ -13,20 +13,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Organization {
+public class Organization extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
     String name;
-    String accreditationNumber;
     String area;
     String workDescription;
+    String accreditationNumber;
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")
     List<Journal> journals = new ArrayList<>();
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")
-    List<Subscriber> subscriberList = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")
     List<Equipment> equipmentList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")
+    List<UserEntity> userEntities = new ArrayList<>();
+
 
 }

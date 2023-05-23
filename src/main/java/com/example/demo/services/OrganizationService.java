@@ -1,8 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Journal;
 import com.example.demo.entities.Organization;
-import com.example.demo.entities.Subscriber;
 import com.example.demo.repositories.OrganizationRep;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -2,7 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.entities.Journal;
 import com.example.demo.entities.Organization;
-import com.example.demo.entities.Subscriber;
+import com.example.demo.exception.EntityAlreadyExistException;
 import com.example.demo.repositories.JournalRep;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,10 @@ public class JournalService {
 
     JournalRep journalRep;
 
-    public void saveJournal(Journal journal){
+    public void saveJournal(Journal journal) throws EntityAlreadyExistException {
+        if (journalRep.findByTitle(journal.getTitle()) != null){
+            throw new EntityAlreadyExistException("Документ с таким названием уже существует");
+        }
         journalRep.save(journal);
         log.info("Create new journal. Journal{}", journal.getTitle());
     }

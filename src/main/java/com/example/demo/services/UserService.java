@@ -1,8 +1,8 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.Organization;
-import com.example.demo.entities.Subscriber;
-import com.example.demo.repositories.SubscriberRep;
+import com.example.demo.entities.UserEntity;
+import com.example.demo.repositories.UserRep;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,15 +20,15 @@ import java.util.NoSuchElementException;
 @Transactional
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true,level = AccessLevel.PRIVATE)
-public class SubscriberService {
+public class UserService {
 
-    SubscriberRep clientRep;
+    UserRep clientRep;
 
     public void saveUser(String name, String patronymic, String surname, String birth, Organization organization){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate date = LocalDate.parse(birth, formatter);
         int age = LocalDate.now().getYear() - date.getYear();
-        Subscriber subscriber = new Subscriber(name,patronymic,surname,date,age,organization);
+        UserEntity subscriber = new UserEntity(name,patronymic,surname,date,age,organization);
         clientRep.save(subscriber);
         log.info("Create new user. Name{}",name);
     }
@@ -38,12 +38,12 @@ public class SubscriberService {
         clientRep.deleteById(id);
     }
 
-    public Subscriber getById(Long id) {
+    public UserEntity getById(Long id) {
         return clientRep.findById(id)
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    public List<Subscriber> findAll(){
+    public List<UserEntity> findAll(){
         return clientRep.findAll();
     }
 }
