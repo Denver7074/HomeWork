@@ -3,9 +3,9 @@ package com.example.demo.services;
 import com.example.demo.entities.Journal;
 import com.example.demo.entities.Organization;
 import com.example.demo.exception.EntityAlreadyExistException;
-import com.example.demo.exception.EntityNotFound;
 import com.example.demo.repositories.JournalRep;
 import com.example.demo.repositories.OrganizationRep;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -36,7 +36,7 @@ public class JournalService {
         log.info("Create new journal. Journal{}", journal.getTitle());
     }
 
-    public void deleteJournal(Long id) throws EntityNotFound {
+    public void deleteJournal(Long id) {
         Journal journalById = findJournalById(id);
         log.info("Delete journal. Journal{}", journalById.getTitle());
         journalRep.delete(journalById);
@@ -46,10 +46,8 @@ public class JournalService {
         return journalRep.findByOrganization(organization);
     }
 
-    public Journal findJournalById(Long id) throws EntityNotFound {
-        if (!journalRep.findById(id).isPresent()){
-            throw new EntityNotFound("Документа с таким id не существует");
-        }
-        return journalRep.findById(id).get();
+    public Journal findJournalById(Long id){
+        return journalRep.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Документа с таким id не существует"));
     }
 }

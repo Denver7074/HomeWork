@@ -2,8 +2,8 @@ package com.example.demo.services;
 
 import com.example.demo.entities.Organization;
 import com.example.demo.exception.EntityAlreadyExistException;
-import com.example.demo.exception.EntityNotFound;
 import com.example.demo.repositories.OrganizationRep;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,15 +22,12 @@ public class OrganizationService {
 
     OrganizationRep organizationRep;
 
-    public Organization organizationGetById(Long id) throws EntityNotFound {
-        Organization organization = organizationRep.findById(id).get();
-        if (organization == null){
-            throw new EntityNotFound("Организация с таким id не найдена");
-        }
-        return organization;
+    public Organization organizationGetById(Long id) {
+        return organizationRep.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Организация не найдена"));
     }
 
-    public void saveOrganization(Organization organization) throws EntityAlreadyExistException {
+    public void saveOrganization(Organization organization) {
         if (organizationRep.findByName(organization.getName()) != null){
             throw new EntityAlreadyExistException("Такая компания уже существует");
         }
@@ -38,7 +35,7 @@ public class OrganizationService {
         log.info("Create new organization. Organization{}", organization.getName());
     }
 
-    public void deleteOrganization(Long id) throws EntityNotFound {
+    public void deleteOrganization(Long id) {
         Organization organization = organizationGetById(id);
         organizationRep.delete(organization);
         log.info("Delete organization. Name{}", organization.getName());

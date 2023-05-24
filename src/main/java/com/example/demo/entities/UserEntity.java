@@ -7,18 +7,15 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
-
+@Data
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserEntity extends BaseEntity{
 
-    int age;
     String name;
+    Integer age;
     String surname;
+    @Getter(AccessLevel.NONE)
     String password;
     LocalDate birth;
     String patronymic;

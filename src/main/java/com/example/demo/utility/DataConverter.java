@@ -4,6 +4,7 @@ import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 @UtilityClass
 public class DataConverter {
@@ -14,8 +15,7 @@ public class DataConverter {
         return date;
     }
 
-    public static int countAge(LocalDate date){
-        int age = LocalDate.now().getYear() - date.getYear();
-        return age;
+    public static Integer countAge(LocalDate date){
+        return Math.toIntExact(ChronoUnit.YEARS.between(date, LocalDate.now()));
     }
 }
