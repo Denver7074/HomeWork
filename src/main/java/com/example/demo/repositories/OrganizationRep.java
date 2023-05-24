@@ -11,7 +11,6 @@ import java.util.List;
 
 @Repository
 public interface OrganizationRep extends JpaRepository<Organization,Long> {
-
-
+    Organization findByName(String name);
     List<Organization> findByArea(String area);
 }

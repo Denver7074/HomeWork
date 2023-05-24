@@ -1,7 +1,8 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Organization;
+import com.example.demo.DTO.UserDTO;
 import com.example.demo.entities.UserEntity;
+import com.example.demo.exception.EntityNotFound;
 import com.example.demo.repositories.UserRep;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -24,23 +22,29 @@ public class UserService {
 
     UserRep clientRep;
 
-    public void saveUser(String name, String patronymic, String surname, String birth, Organization organization){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate date = LocalDate.parse(birth, formatter);
-        int age = LocalDate.now().getYear() - date.getYear();
-        UserEntity subscriber = new UserEntity(name,patronymic,surname,date,age,organization);
-        clientRep.save(subscriber);
-        log.info("Create new user. Name{}",name);
+//    public void saveUser(String name, String patronymic, String surname, String birth, Organization organization){
+//        UserEntity subscriber = new UserEntity(name,patronymic,surname,date,age,organization);
+//        clientRep.save(subscriber);
+//        log.info("Create new user. Name{}",name);
+//    }
+
+    public void deleteUser(Long id) throws EntityNotFound {
+        UserEntity userEntity = findUserEntityById(id);
+        log.info("Delete user. Name{}", userEntity.getName());
+        clientRep.delete(userEntity);
     }
 
-    public void deleteUser(Long id){
-        log.info("Delete user. Name{}", getById(id).getName());
-        clientRep.deleteById(id);
+    public UserDTO userDTOGetById(Long id) throws EntityNotFound {
+        UserEntity userEntity = findUserEntityById(id);
+        return UserDTO.userDTO(userEntity);
     }
 
-    public UserEntity getById(Long id) {
-        return clientRep.findById(id)
-                .orElseThrow(NoSuchElementException::new);
+    private UserEntity findUserEntityById(Long id) throws EntityNotFound {
+        UserEntity userEntity = clientRep.findById(id).get();
+        if (userEntity == null){
+            throw new EntityNotFound("Пользователь не найден");
+        }
+        return userEntity;
     }
 
     public List<UserEntity> findAll(){
