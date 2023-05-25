@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface JournalRep extends JpaRepository<Journal,Long> {
 
-   Journal findByTitle(String title);
+   Journal findByTitleAndInTheArchiveFalse(String title);
 
    List<Journal> findByOrganization(Organization organization);
 

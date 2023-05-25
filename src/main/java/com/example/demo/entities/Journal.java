@@ -15,6 +15,7 @@ public class Journal extends BaseEntity {
     String description;
     @OneToOne
     CategoryDocument category;
+    boolean inTheArchive = false;
     LocalDate createJournal = LocalDate.now();
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     Organization organization;

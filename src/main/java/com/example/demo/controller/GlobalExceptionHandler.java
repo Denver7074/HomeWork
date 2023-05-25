@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.EntityAlreadyExistException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,8 +14,13 @@ public class GlobalExceptionHandler {
         return "Произошла ошибка";
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     public String handleEntityNotFound(EntityNotFoundException e) {
         return e.getMessage();
     }
+    @ExceptionHandler(EntityAlreadyExistException.class)
+    public String handleEntityAlreadyExistException(EntityAlreadyExistException e) {
+        return e.getMessage();
+    }
+
 }

@@ -27,7 +27,7 @@ public class OrganizationService {
                 .orElseThrow(()->new EntityNotFoundException("Организация не найдена"));
     }
 
-    public void saveOrganization(Organization organization) {
+    public void createOrganization(Organization organization) {
         if (organizationRep.findByName(organization.getName()) != null){
             throw new EntityAlreadyExistException("Такая компания уже существует");
         }
@@ -41,8 +41,11 @@ public class OrganizationService {
         log.info("Delete organization. Name{}", organization.getName());
     }
 
-    public List<Organization> findByArea(String area){
-        return organizationRep.findByArea(area);
+    public List<Organization> findAll(){
+        return organizationRep.findAll();
     }
+   // public List<Organization> findByArea(String area){
+//        return organizationRep.findByArea(area);
+//    }
 
 }

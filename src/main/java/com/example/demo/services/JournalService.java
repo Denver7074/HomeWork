@@ -27,13 +27,14 @@ public class JournalService {
     OrganizationRep organizationRep;
 
     public void createJournal(Journal journal,Long id) throws EntityAlreadyExistException {
-        if (journalRep.findByTitle(journal.getTitle()) != null){
+        String title = journal.getTitle();
+        if (journalRep.findByTitleAndInTheArchiveFalse(title) != null ){
             throw new EntityAlreadyExistException("Документ с таким названием уже существует");
         }
         Organization organization = organizationRep.findById(id).get();
         journal.setOrganization(organization);
         journalRep.save(journal);
-        log.info("Create new journal. Journal{}", journal.getTitle());
+        log.info("Create new journal. Journal{}", title);
     }
 
     public void deleteJournal(Long id) {
