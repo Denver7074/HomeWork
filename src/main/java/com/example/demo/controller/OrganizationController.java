@@ -37,4 +37,11 @@ public class OrganizationController {
         return organizationService.findAll();
     }
 
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Удалить организацию")
+    public String deleteOrganization(@PathVariable Long id){
+        organizationService.deleteOrganization(id);
+        return "Организация удалена";
+    }
+
 }

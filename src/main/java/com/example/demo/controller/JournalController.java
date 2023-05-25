@@ -1,13 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.entities.Journal;
+import com.example.demo.entities.document.journal.Journal;
 import com.example.demo.entities.Organization;
-import com.example.demo.exception.EntityAlreadyExistException;
 import com.example.demo.services.JournalService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,11 +28,12 @@ public class JournalController {
         return journalService.findJournalById(id);
     }
 
-    @PostMapping
-    @Operation(summary = "Создать новый журнал")
-    public void createJournal(@RequestBody Journal journal, @RequestParam Long organization_id){
-        journalService.createJournal(journal,organization_id);
-    }
+//    @PostMapping
+//    @Operation(summary = "Создать новый журнал")
+//    public String createJournal(@RequestBody Journal journal, @RequestParam Long userId){
+//        journalService.createJournal(journal,userId);
+//        return "Журнал создан";
+//    }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить журнал")

@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.entities.Organization;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.exception.EntityAlreadyExistException;
+import com.example.demo.exception.InvalidData;
 import com.example.demo.repositories.OrganizationRep;
 import com.example.demo.repositories.UserRep;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,17 +27,31 @@ import java.util.Optional;
 @FieldDefaults(makeFinal = true,level = AccessLevel.PRIVATE)
 public class UserService {
     UserRep userRep;
-    OrganizationRep organizationRep;
+    OrganizationService organizationService;
 
     public void createUser(UserEntity userEntity, Long organizationId){
-        Organization organization = organizationRep.findById(organizationId)
-                .orElseThrow(()->new EntityNotFoundException("Такой организации не существует"));
-        userEntity.setOrganization(organization);
-        userRep.save(userEntity);
+        Organization organization = organizationService.organizationGetById(organizationId);
+        String inn = userEntity.getInn().trim();
+        if (inn.length() != 12){
+            throw new InvalidData("Индивидуальный налоговый номер введен некорректно");
+        }
+        if (userRep.findByInn(inn) != null){
+            UserEntity user = userRep.findByInn(inn);
+            List<Organization> organizations = user.getOrganizations();
+            if (!organizations.contains(organization)){
+                organizations.add(organization);
+                user.setOrganizations(organizations);
+                userRep.save(user);
+            }
+        }
+        else {
+            userEntity.setOrganizations(List.of(organization));
+            userRep.save(userEntity);
+        }
     }
     public void deleteUser(Long id) {
         UserEntity userEntity = getUserById(id);
-        log.info("Delete user. Name{}", userEntity.getUserName());
+        log.info("Dismissed user. Name{}", userEntity.getUserName());
         userRep.delete(userEntity);
     }
 
