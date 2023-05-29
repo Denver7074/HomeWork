@@ -1,13 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.entities.Organization;
+
 import com.example.demo.entities.UserEntity;
 import com.example.demo.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +20,12 @@ public class UserController {
 
     UserService userService;
 
-    @PostMapping
-    @Operation(summary = "Регистрация нового пользователя")
-    public String createJournal(@RequestBody UserEntity user, @RequestParam Long organizationId){
-        userService.createUser(user,organizationId);
-        return "Пользователь создан";
-    }
+//    @PostMapping
+//    @Operation(summary = "Регистрация нового пользователя")
+//    public String createJournal(@RequestBody UserEntity user, @RequestParam Long organizationId){
+//        userService.createUser(user,organizationId);
+//        return "Пользователь создан";
+//    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Поиск пользователя по id")

@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -27,7 +29,8 @@ public class Equipment{
     String miType;
     @JsonAlias("org_title")
     String orgTitle;
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    Organization organization;
+
+    @ManyToMany
+    List<Organization> organizations = new ArrayList<>();
 
 }

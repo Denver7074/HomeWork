@@ -1,12 +1,10 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.UserEntity;
+
 import com.example.demo.entities.document.journal.Journal;
 import com.example.demo.entities.Organization;
 import com.example.demo.exception.EntityAlreadyExistException;
 import com.example.demo.repositories.JournalRep;
-import com.example.demo.repositories.OrganizationRep;
-import com.example.demo.repositories.UserRep;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,34 +24,52 @@ import java.util.List;
 public class JournalService {
 
     JournalRep journalRep;
-    OrganizationRep organizationRep;
-    UserRep userRep;
+    OrganizationService organizationService;
 
-//    public void createJournal(Journal journal,Long userId) throws EntityAlreadyExistException {
-//        String title = journal.getTitle();
-//        if (journalRep.findByTitleAndInTheArchiveFalse(title) != null ){
-//            throw new EntityAlreadyExistException("Документ с таким названием уже существует");
-//        }
-//        UserEntity user = userRep.findById(userId)
-//                .orElseThrow(()->new EntityNotFoundException("Такой пользователь не существует"));
-//        Organization organization = user.getOrganization();
-//        journal.setOrganization(organization);
-//        journalRep.save(journal);
-//        log.info("Create new journal. Journal{}", title);
-//    }
-
-    public void deleteJournal(Long id) {
-        Journal journalById = findJournalById(id);
-        log.info("Delete journal. Journal{}", journalById.getTitle());
-        journalRep.delete(journalById);
+    public void createJournal(Journal journal, Long organizationId) {
+        if (findAllByOrganization(organizationId).contains(journal)){
+            throw new EntityAlreadyExistException("Документ с таким названием уже существует");
+        }
+        Organization organization = organizationService.organizationGetById(organizationId);
+        journal.setOrganization(organization);
+        journalRep.save(journal);
+        log.info("Create new journal. Journal{}", journal.getTitle());
     }
 
-    public List<Journal> findAll(Organization organization){
+    /**
+     * 1. Удалять полностью может только руководитель, но был случай, когда руководитель на зло удалял все, поэтому нужно продумать защиту от такого,
+     * уволили несправедливо/отправили на пенсию.
+     * 2. Кнопка активна и для обычного сотрудника, но должен согласовать руководитель.
+     * @param id - индивидуальный идентификатор журнала
+     */
+    public void deleteJournal(Long id) {
+        Journal journalById = findJournalById(id);
+        journalRep.delete(journalById);
+        log.info("Delete journal. Journal{} ", journalById.getTitle());
+    }
+
+    /**
+     * Списание в архив (мягкое удаление)
+     * @param id - индивидуальный идентификатор журнала
+     */
+    public void writeOffToTheArchive(Long id){
+        Journal journalById = findJournalById(id);
+        journalRep.writeOffToTheArchive(id);
+        log.info("Delete journal. Journal{} ", journalById.getTitle());
+    }
+
+    public List<Journal> findAllByOrganization(Long organizationId){
+        Organization organization = organizationService.organizationGetById(organizationId);
         return journalRep.findByOrganization(organization);
     }
 
     public Journal findJournalById(Long id){
+        log.info("Find journal by id. id{} ",id);
         return journalRep.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Документа с таким id не существует"));
+    }
+
+    public List<Journal> findAllJournal(){
+        return journalRep.findAll();
     }
 }

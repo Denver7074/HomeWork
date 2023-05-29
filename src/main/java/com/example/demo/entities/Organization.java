@@ -20,9 +20,10 @@ public class Organization extends BaseEntity{
 //    String accreditationNumber;
 //    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")
 //    List<Journal> journals = new ArrayList<>();
-//    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")
-//    List<Equipment> equipmentList = new ArrayList<>();
     @ManyToMany(mappedBy = "organizations")
-    List<UserEntity> users = new ArrayList<>();
+    List<Equipment> equipmentList = new ArrayList<>();
+    @OneToMany(mappedBy = "organization")
+    List<UserOrganization> userOrganizations = new ArrayList<>();
+
 
 }

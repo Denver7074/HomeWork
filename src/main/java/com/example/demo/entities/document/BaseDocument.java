@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 
@@ -20,12 +21,12 @@ public abstract class BaseDocument {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     String title;
-    String description;
-    @OneToOne
-    CategoryDocument category;
-    boolean inTheArchive = false;
-    LocalDate createJournal = LocalDate.now();
-    LocalDate dateUpdate;
+//    String description;
+//    @OneToOne
+//    CategoryDocument category;
+    boolean inTheArchive;
+//    LocalDate createJournal = LocalDate.now();
+//    LocalDate dateUpdate;
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     Organization organization;
 }

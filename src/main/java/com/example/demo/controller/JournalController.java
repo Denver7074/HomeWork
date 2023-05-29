@@ -1,10 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.entities.document.journal.Journal;
-import com.example.demo.entities.Organization;
 import com.example.demo.services.JournalService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,14 +13,21 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/journals")
+@FieldDefaults(makeFinal = true,level = AccessLevel.PRIVATE)
 public class JournalController {
 
     private JournalService journalService;
 
+//    @GetMapping
+//    @Operation(summary = "Все журналы созданные организацией")
+//    public List<Journal> getAllJournals(@RequestParam Long organizationId) {
+//        return journalService.findAllByOrganization(organizationId);
+//    }
+
     @GetMapping
-    @Operation(summary = "Все журналы созданные организацией")
-    public List<Journal> getAllJournals(@RequestParam Organization organization) {
-        return journalService.findAll(organization);
+    @Operation(summary = "Все журналы")
+    public List<Journal> getAllJournals() {
+        return journalService.findAllJournal();
     }
 
     @GetMapping("/{id}")
@@ -28,16 +36,24 @@ public class JournalController {
         return journalService.findJournalById(id);
     }
 
-//    @PostMapping
-//    @Operation(summary = "Создать новый журнал")
-//    public String createJournal(@RequestBody Journal journal, @RequestParam Long userId){
-//        journalService.createJournal(journal,userId);
-//        return "Журнал создан";
-//    }
+    @PostMapping
+    @Operation(summary = "Создать новый журнал")
+    public String createJournal(@RequestBody Journal journal, @RequestParam Long organizationId){
+        journalService.createJournal(journal,organizationId);
+        return "Журнал создан";
+    }
+
+    @PutMapping
+    @Operation(summary = "Списать в архив")
+    public String writeOffToTheArchive(@RequestParam Long journalId){
+        journalService.writeOffToTheArchive(journalId);
+        return "Журнал списан в архив";
+    }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить журнал")
-    public void deleteJournal(@PathVariable Long id){
+    public String deleteJournal(@PathVariable Long id){
         journalService.deleteJournal(id);
+        return "Журнал бесследно удален";
     }
 }

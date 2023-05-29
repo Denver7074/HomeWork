@@ -5,17 +5,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-/**
- * Эти роли служат для выдачи прав доступа на редактирование и просто чтение документов.
- */
 @Getter
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public enum Status {
-
-    CUSTOMER,
-    WORKER_LABORATORY,
+public enum Duties {
+    ADMIN,
+    QUALITY_MANAGER,
     DIRECTOR_LABORATORY,
-    DIRECTOR_ORGANIZATION;
-
+    DIRECTOR_ORGANIZATION,
+    CARRYING_OUT_MEASUREMENTS;
 }

@@ -19,5 +19,4 @@ import java.time.LocalDate;
 public class Journal extends BaseDocument {
 
 
-
 }
