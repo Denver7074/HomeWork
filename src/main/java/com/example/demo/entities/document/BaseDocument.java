@@ -25,6 +25,9 @@ public abstract class BaseDocument {
 //    @OneToOne
 //    CategoryDocument category;
     boolean inTheArchive;
+    LocalDate dateWriteOff;
+    boolean completeRemoval;
+    LocalDate dateCompleteRemoval;
 //    LocalDate createJournal = LocalDate.now();
 //    LocalDate dateUpdate;
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)

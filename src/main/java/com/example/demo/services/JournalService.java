@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -37,25 +38,22 @@ public class JournalService {
     }
 
     /**
-     * 1. Удалять полностью может только руководитель, но был случай, когда руководитель на зло удалял все, поэтому нужно продумать защиту от такого,
-     * уволили несправедливо/отправили на пенсию.
-     * 2. Кнопка активна и для обычного сотрудника, но должен согласовать руководитель.
+     * 1. Проверяем не списан ли журнал в архив уже, если нет, то перемещаем в архив.
+     * 2. При повторном удалении уже в архиве (отправляется запрос руководителю на подтверждение удаления)
+     * и только через 30 дней журнал бесследно удалиться (защита от дураков).
      * @param id - индивидуальный идентификатор журнала
      */
-    public void deleteJournal(Long id) {
+    public void deleteJournal(Long id){
         Journal journalById = findJournalById(id);
-        journalRep.delete(journalById);
-        log.info("Delete journal. Journal{} ", journalById.getTitle());
-    }
-
-    /**
-     * Списание в архив (мягкое удаление)
-     * @param id - индивидуальный идентификатор журнала
-     */
-    public void writeOffToTheArchive(Long id){
-        Journal journalById = findJournalById(id);
-        journalRep.writeOffToTheArchive(id);
-        log.info("Delete journal. Journal{} ", journalById.getTitle());
+        if (!journalById.isInTheArchive()){
+            journalRep.writeOffToTheArchive(id);
+            log.info("The journal has been moved to the archive.Journal{} ",journalById.getTitle());
+        }
+        else {
+            LocalDate date = LocalDate.now().plusDays(30);
+            journalRep.completeRemoval(id,date);
+            log.info("The journal will be deleted after 30 days. Journal{} ", journalById.getTitle());
+        }
     }
 
     public List<Journal> findAllByOrganization(Long organizationId){

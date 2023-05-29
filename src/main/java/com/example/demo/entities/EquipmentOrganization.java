@@ -15,8 +15,6 @@ import java.util.Set;
 public class EquipmentOrganization extends BaseEntity{
 
     @ElementCollection(targetClass = EquipmentStatus.class)
-    @CollectionTable(name = "equipment_organization_status", joinColumns = @JoinColumn(name = "equipment_organization_id"))
-    @Column(name = "equipmentStatus")
     @Enumerated(EnumType.STRING)
     Set<EquipmentStatus> equipmentStatuses;
     @ManyToOne

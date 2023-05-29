@@ -16,7 +16,7 @@ import java.util.List;
 @FieldDefaults(makeFinal = true,level = AccessLevel.PRIVATE)
 public class JournalController {
 
-    private JournalService journalService;
+    JournalService journalService;
 
 //    @GetMapping
 //    @Operation(summary = "Все журналы созданные организацией")
@@ -43,17 +43,9 @@ public class JournalController {
         return "Журнал создан";
     }
 
-    @PutMapping
-    @Operation(summary = "Списать в архив")
-    public String writeOffToTheArchive(@RequestParam Long journalId){
-        journalService.writeOffToTheArchive(journalId);
-        return "Журнал списан в архив";
-    }
-
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить журнал")
-    public String deleteJournal(@PathVariable Long id){
+    public void deleteJournal(@PathVariable Long id){
         journalService.deleteJournal(id);
-        return "Журнал бесследно удален";
     }
 }
