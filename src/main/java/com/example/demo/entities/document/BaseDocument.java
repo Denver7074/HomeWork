@@ -24,9 +24,7 @@ public abstract class BaseDocument {
 //    String description;
 //    @OneToOne
 //    CategoryDocument category;
-    boolean inTheArchive;
-    LocalDate dateWriteOff;
-    boolean completeRemoval;
+    LocalDate dateWriteOffInTheArchive;
     LocalDate dateCompleteRemoval;
 //    LocalDate createJournal = LocalDate.now();
 //    LocalDate dateUpdate;

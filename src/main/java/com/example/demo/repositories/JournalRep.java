@@ -14,14 +14,12 @@ import java.util.List;
 @Repository
 public interface JournalRep extends JpaRepository<Journal,Long> {
 
-   Journal findByTitleAndInTheArchiveFalse(String title);
-
    List<Journal> findByOrganization(Organization organization);
 
    @Modifying
-   @Query("update Journal j set  j.inTheArchive = true, j.dateWriteOff = current_date where j.id = :id")
+   @Query("update Journal j set j.dateWriteOffInTheArchive = current_date where j.id = :id")
    void writeOffToTheArchive(@Param("id") Long id);
    @Modifying
-   @Query("update Journal j set  j.completeRemoval = true, j.dateCompleteRemoval = :date where j.id = :id")
-   void completeRemoval(@Param("id") Long id, @Param("date") LocalDate date);
+   @Query("update Journal j set j.dateCompleteRemoval = current_date where j.id = :id")
+   void completeRemoval(@Param("id") Long id);
 }

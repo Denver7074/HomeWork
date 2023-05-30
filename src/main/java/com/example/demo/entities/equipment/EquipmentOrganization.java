@@ -1,6 +1,7 @@
-package com.example.demo.entities;
+package com.example.demo.entities.equipment;
 
-import com.example.demo.entities.enums.Duties;
+import com.example.demo.entities.BaseEntity;
+import com.example.demo.entities.Organization;
 import com.example.demo.entities.enums.EquipmentStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,14 +13,13 @@ import java.util.Set;
 @Data
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EquipmentOrganization extends BaseEntity{
+public class EquipmentOrganization extends BaseEntity {
 
     @ElementCollection(targetClass = EquipmentStatus.class)
     @Enumerated(EnumType.STRING)
     Set<EquipmentStatus> equipmentStatuses;
     @ManyToOne
     Organization organization;
-    @ManyToOne
-    Equipment equipment;
+
 
 }

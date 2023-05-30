@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.example.demo.entities.room.LaboratoryFacilities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -15,15 +16,17 @@ import java.util.List;
 public class Organization extends BaseEntity{
 
     String name;
+    String innOrganization;
  //   String area;
 //    String workDescription;
 //    String accreditationNumber;
 //    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")
 //    List<Journal> journals = new ArrayList<>();
-    @ManyToMany(mappedBy = "organizations")
-    List<Equipment> equipmentList = new ArrayList<>();
+//    @ManyToMany(mappedBy = "organizations")
+//    List<Equipment> equipmentList = new ArrayList<>();
     @OneToMany(mappedBy = "organization")
     List<UserOrganization> userOrganizations = new ArrayList<>();
-
+    @OneToMany(mappedBy = "organization")
+    List<LaboratoryFacilities> laboratoryFacilities = new ArrayList<>();
 
 }

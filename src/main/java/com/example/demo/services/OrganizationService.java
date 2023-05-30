@@ -28,7 +28,7 @@ public class OrganizationService {
     }
 
     public void createOrganization(Organization organization) {
-        if (organizationRep.findByName(organization.getName()) != null){
+        if (organizationRep.existsByInnOrganization(organization.getInnOrganization())){
             throw new EntityAlreadyExistException("Такая компания уже существует");
         }
         organizationRep.save(organization);

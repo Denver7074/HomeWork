@@ -1,6 +1,6 @@
 package com.example.demo.services.equipment;
 
-import com.example.demo.entities.Equipment;
+import com.example.demo.entities.equipment.type.Equipment;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.type.CollectionLikeType;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -9,9 +9,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.net.http.HttpClient;

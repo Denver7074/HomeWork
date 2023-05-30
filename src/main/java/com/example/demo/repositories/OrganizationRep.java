@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface OrganizationRep extends JpaRepository<Organization,Long> {
     Organization findByName(String name);
+    boolean existsByInnOrganization(String innOrganization);
    //List<Organization> findByArea(String area);
 }

@@ -40,19 +40,18 @@ public class JournalService {
     /**
      * 1. Проверяем не списан ли журнал в архив уже, если нет, то перемещаем в архив.
      * 2. При повторном удалении уже в архиве (отправляется запрос руководителю на подтверждение удаления)
-     * и только через 30 дней журнал бесследно удалиться (защита от дураков).
+     * и только после подтверждения руководителя бесследно удалиться (защита от дураков).
      * @param id - индивидуальный идентификатор журнала
      */
     public void deleteJournal(Long id){
         Journal journalById = findJournalById(id);
-        if (!journalById.isInTheArchive()){
+        if (journalById.getDateWriteOffInTheArchive() == null){
             journalRep.writeOffToTheArchive(id);
             log.info("The journal has been moved to the archive.Journal{} ",journalById.getTitle());
         }
         else {
-            LocalDate date = LocalDate.now().plusDays(30);
-            journalRep.completeRemoval(id,date);
-            log.info("The journal will be deleted after 30 days. Journal{} ", journalById.getTitle());
+            journalRep.completeRemoval(id);
+            log.info("Delete journal. Journal{} ", journalById.getTitle());
         }
     }
 
