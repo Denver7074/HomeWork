@@ -12,5 +12,5 @@ public enum Appointment {
     Special("Специальное"),
     Adapted("Приспособленное");
 
-    String value;
+  String value;
 }

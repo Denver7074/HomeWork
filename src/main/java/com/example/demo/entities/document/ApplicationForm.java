@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 /**
- * Форма заявки для обращения заказчика
+ * Форма заявки для обращения заказчика.
  */
 
 @Data
@@ -15,9 +15,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApplicationForm extends BaseEntity {
 
-    String nameObject;
-    String addressObject;
-    String emailCustomer;
-    String innCustomer;
+  String nameObject;
+  String addressObject;
+  String emailCustomer;
+  String innCustomer;
 
 }
