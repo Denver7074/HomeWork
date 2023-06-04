@@ -1,10 +1,9 @@
 package com.example.demo.entities.room;
 
 import com.example.demo.entities.BaseEntity;
-import com.example.demo.entities.Organization;
+import com.example.demo.entities.structure.Laboratory;
+import com.example.demo.entities.structure.Organization;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -25,15 +24,25 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LaboratoryFacilities extends BaseEntity {
 
-    String purposeOfTheRoom;
-    @Enumerated(EnumType.STRING)
-    Appointment appointment;
-    String address;
-    Long square;
-    String indoorConditions;
-    String specialEquipment;
-    String ownership;
-    boolean used;
-    @ManyToOne
-    Organization organization;
+  /**
+  * Площадь помещения.
+  */
+  Long square;
+  /**
+  * Используетя помещение или нет?
+  */
+  boolean used;
+  /**
+  * Адрес помещения.
+  * Поле "address" должно содержать адрес вплоть до номера кабинета.
+  */
+  String address;
+//    String ownership;
+//    @Enumerated(EnumType.STRING)
+//    Appointment appointment;
+//    String indoorConditions;
+//    String specialEquipment;
+//    String purposeOfTheRoom;
+  @ManyToOne()
+  Laboratory laboratory;
 }

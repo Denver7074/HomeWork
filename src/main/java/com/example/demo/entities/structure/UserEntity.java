@@ -1,16 +1,19 @@
-package com.example.demo.entities;
+package com.example.demo.entities.structure;
+
 
 import com.example.demo.entities.BaseEntity;
-import com.example.demo.entities.Organization;
+import com.example.demo.entities.structure.Organization;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Приказ 707:
@@ -27,10 +30,16 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class UserEntity extends BaseEntity {
-    @NotBlank
-    String inn;
+  /**
+  * ИНН пользователя
+  */
+  @NotBlank
+  String inn;
 //    String SNILS;
-    String userName;
+  /**
+  * Имя пользователя
+  */
+  String userName;
 //    Integer age;
 //    String surname;
 //    @Getter(AccessLevel.NONE)
@@ -38,10 +47,9 @@ public class UserEntity extends BaseEntity {
 //    LocalDate birth;
 //    String patronymic;
 //    LocalDate createDate = LocalDate.now();
+//  @ManyToMany(mappedBy = "userEntities")
+//  Set<Organization> organizations= new HashSet<>();
 
-
-    @OneToMany(mappedBy = "userEntity")
-    List<UserOrganization> userOrganizations = new ArrayList<>();
 
 
 }

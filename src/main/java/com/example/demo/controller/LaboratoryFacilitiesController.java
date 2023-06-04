@@ -16,9 +16,9 @@ public class LaboratoryFacilitiesController {
 
     LaboratoryFacilitiesService laboratoryFacilitiesService;
 
-    @PostMapping
-    @Operation(summary = "Добавить новое помещение")
-    public void addNewRoom(@RequestBody LaboratoryFacilities room, @RequestParam Long organizationId){
-        laboratoryFacilitiesService.addNewRoom(room,organizationId);
-    }
+//    @PostMapping
+//    @Operation(summary = "Добавить новое помещение")
+//    public void addNewRoom(@RequestBody LaboratoryFacilities room, @RequestParam Long organizationId){
+//        laboratoryFacilitiesService.addNewRoom(room,organizationId);
+//    }
 }

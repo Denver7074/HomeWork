@@ -1,6 +1,6 @@
 package com.example.demo.entities.document;
 
-import com.example.demo.entities.Organization;
+import com.example.demo.entities.structure.Organization;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -47,7 +47,7 @@ public class EquipmentApiService {
     return mapper.convertValue(docsArray, postCollection);
   }
 
-  private ObjectMapper objectMapper() {
+  public ObjectMapper objectMapper() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.registerModule(new Jdk8Module())
                 .registerModule(new JavaTimeModule());

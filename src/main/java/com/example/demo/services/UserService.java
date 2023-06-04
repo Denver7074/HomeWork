@@ -1,9 +1,8 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Organization;
-import com.example.demo.entities.UserEntity;
-import com.example.demo.exception.InvalidData;
-import com.example.demo.repositories.UserRep;
+
+import com.example.demo.entities.structure.UserEntity;
+import com.example.demo.repositories.structure.UserRep;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-@FieldDefaults(makeFinal = true,level = AccessLevel.PRIVATE)
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserService {
     UserRep userRep;
     OrganizationService organizationService;
@@ -54,10 +53,10 @@ public class UserService {
 
     public UserEntity getUserById(Long id) {
         log.info("Find user by id. Id{} ", id);
-        return userRep.findById(id).orElseThrow(()-> new EntityNotFoundException("Пользователь не найден"));
+        return userRep.findById(id).orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
     }
 
-    public List<UserEntity> findAll(){
+    public List<UserEntity> findAll() {
         return userRep.findAll();
     }
 }

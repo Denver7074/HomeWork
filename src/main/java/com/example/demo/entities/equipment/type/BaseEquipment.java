@@ -8,6 +8,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
+
 /**
  * Согласно ГОСТ 17025-2019
  * 6.4.13 Должны вестись записи о состоянии оборудования, которое может повлиять на лабораторную деятельность.
@@ -33,11 +36,53 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class BaseEquipment {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        Long id;
-        String ownership;
-        String nameEquipment;
-        String installationLocation;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
+    /**
+    * Право владения и пользования.
+    * Поле "ownership" содержит способ владения оборудованием и реквизиты документа устанавливающие эти права.
+    * Например, значение поля может быть "Аренда на основании Договора аренды №... от...", "Собственность
+    * на основании Договора купли-продажи..." и пр.
+    */
+    String ownership;
+    /**
+    * Производитель оборудования.
+    * Поле "manufacturer" содержит информацию о производителе данного изделия.
+    * Оно может содержать как наименование производителя, так и страну, в которой он находится.
+    * Например, значение поля может быть в формате "Название производителя, Страна производства".
+    */
+    String manufacturer;
+    /**
+    * Название оборудования
+    * Поле "nameEquipment" содержит информацию о названии оборудования, тип (марка).
+    * Оно может содержать как полное название оборудования, так и тип марку.
+    * Например, значение поля может быть в формате "Наименование оборудования, тип (марка)".
+    */
+    String nameEquipment;
+    /**
+    * Год выпуска (производства) оборудования.
+    */
+    String yearOfRelease;
+    /**
+    * Место установки или хранения оборудования.
+    */
+    String installationLocation;
+    /**
+    * Назначение или наименование видов испытания.
+    * Поле "purpose" содержит информацию для каких целей применяется данное оборудование.
+    */
+    String purpose;
+    /**
+    * Дата ввода в эксплуатацию.
+    */
+    LocalDate dateOfCommissioning;
+    /**
+    * Заводской номер.
+    */
+    String factoryNumber;
+    /**
+    * Инвентарный номер или другая уникальная идентификация.
+    */
+    String inventoryNumber;
 }

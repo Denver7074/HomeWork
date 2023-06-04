@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entities.Organization;
+import com.example.demo.entities.structure.Organization;
 import com.example.demo.services.OrganizationService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
@@ -27,7 +27,7 @@ public class OrganizationController {
     @PostMapping
     @Operation(summary = "Регистрация новой организации")
     public String createJournal(@RequestBody Organization organization){
-        organizationService.createOrganization(organization);
+        organizationService.createNewOrganization(organization);
         return "Организация зарегистрирована";
     }
 

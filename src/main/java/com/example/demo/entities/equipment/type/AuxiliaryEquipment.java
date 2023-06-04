@@ -1,5 +1,10 @@
 package com.example.demo.entities.equipment.type;
 
+import jakarta.persistence.Entity;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
+
 /**
  * 26.12. сведения об оснащенности вспомогательным оборудованием,
  * подтверждающие соответствие лаборатории критериям аккредитации:
@@ -12,5 +17,10 @@ package com.example.demo.entities.equipment.type;
  * право собственности либо иное законное основание,
  * предусматривающее право владения и пользования (реквизиты подтверждающих документов).
  */
-public class AuxiliaryEquipment {
+
+@Data
+@Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class AuxiliaryEquipment extends BaseEquipment {
+
 }

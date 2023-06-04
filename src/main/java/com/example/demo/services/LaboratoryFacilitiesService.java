@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Organization;
+import com.example.demo.entities.structure.Organization;
 import com.example.demo.entities.room.LaboratoryFacilities;
 import com.example.demo.exception.EntityAlreadyExistException;
 import com.example.demo.repositories.LaboratoryFacilitiesRep;
@@ -11,8 +11,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,16 +26,19 @@ public class LaboratoryFacilitiesService {
      *Тут нужно подумать если другая организация по ошибке заняла это помещение
      * Не может быть несколько лабораторий в одном помещении
      */
-    public void addNewRoom(LaboratoryFacilities room, Long organizationId){
-        if (laboratoryFacilitiesRep.existsByAddress(room.getAddress())){
-            throw new EntityAlreadyExistException("Кабинет с таким адресом уже существует");
-        }
-        Organization organization = organizationService.organizationGetById(organizationId);
-        room.setOrganization(organization);
-        room.setUsed(true);
-        laboratoryFacilitiesRep.save(room);
-    }
+//    public void addNewRoom(LaboratoryFacilities room, Long organizationId){
+//        if (laboratoryFacilitiesRep.existsByAddress(room.getAddress())){
+//            throw new EntityAlreadyExistException("Кабинет с таким адресом уже существует");
+//        }
+//        Organization organization = organizationService.organizationGetById(organizationId);
+//        room.setOrganization(organization);
+//        room.setUsed(true);
+//        laboratoryFacilitiesRep.save(room);
+//    }
 
+    /**
+     *Первый раз просто помечаем, что не используем, второй раз удаляем
+     */
     public void notUsedRoom(Long id){
         LaboratoryFacilities room = getById(id);
         if (room.isUsed()){

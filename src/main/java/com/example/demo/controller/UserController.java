@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.entities.UserEntity;
+import com.example.demo.entities.structure.UserEntity;
 import com.example.demo.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
@@ -41,8 +41,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить пользователя")
-    public String deleteUser(@PathVariable Long id){
+    public void deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
-        return "Пользователь удален";
     }
 }

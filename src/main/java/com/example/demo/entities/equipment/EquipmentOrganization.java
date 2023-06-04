@@ -1,7 +1,7 @@
 package com.example.demo.entities.equipment;
 
 import com.example.demo.entities.BaseEntity;
-import com.example.demo.entities.Organization;
+import com.example.demo.entities.structure.Organization;
 import com.example.demo.entities.enums.EquipmentStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
