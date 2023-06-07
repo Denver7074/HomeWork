@@ -55,7 +55,7 @@ public class LaboratoryService {
 
   public void softDeleteLaboratory(Long id) {
     Laboratory laboratory = getById(id);
-    if (!laboratory.isDeleted()) {
+    if (!laboratory.getDeleted()) {
       laboratory.setDeleted(true);
       laboratoryRep.save(laboratory);
     } else {

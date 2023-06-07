@@ -1,5 +1,6 @@
 package com.example.demo.services.equipment;
 
+import com.example.demo.configuration.AppConfiguration;
 import com.example.demo.entities.equipment.type.Equipment;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,6 +28,9 @@ import java.net.URI;
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class EquipmentApiService {
+
+  AppConfiguration appConfiguration;
+
   @SneakyThrows
   public List<Equipment> api(String mitNumber, String number) {
     String postApiUri = "https://fgis.gost.ru/fundmetrology/cm/xcdb/vri/select?fq=mi.mitnumber:" + mitNumber
@@ -39,7 +43,7 @@ public class EquipmentApiService {
                 .build();
     HttpResponse<String> response = client.
             send(request, HttpResponse.BodyHandlers.ofString());
-    ObjectMapper mapper = objectMapper();
+    ObjectMapper mapper = appConfiguration.objectMapper();
     JsonNode json = mapper.readTree(response.body());
     JsonNode docsArray = json.get("response").get("docs");
     CollectionLikeType postCollection = mapper.getTypeFactory()
@@ -47,14 +51,5 @@ public class EquipmentApiService {
     return mapper.convertValue(docsArray, postCollection);
   }
 
-  public ObjectMapper objectMapper() {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModule(new Jdk8Module())
-                .registerModule(new JavaTimeModule());
-    mapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-    mapper.configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false);
-    return mapper;
-  }
+
 }

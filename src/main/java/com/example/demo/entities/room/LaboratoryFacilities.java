@@ -31,7 +31,7 @@ public class LaboratoryFacilities extends BaseEntity {
   /**
   * Используетя помещение или нет?
   */
-  boolean used;
+  Boolean used = Boolean.TRUE;
   /**
   * Адрес помещения.
   * Поле "address" должно содержать адрес вплоть до номера кабинета.

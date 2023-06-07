@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.configuration.AppConfiguration;
 import com.example.demo.entities.structure.Laboratory;
 import com.example.demo.services.equipment.EquipmentApiService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,7 +29,7 @@ import java.util.Map;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class GeoCoordinateService {
 
-  EquipmentApiService equipmentApiService;
+  AppConfiguration appConfiguration;
   public List<Double> findGeoCoordinate(String city) throws IOException, InterruptedException {
       List<Double> coordinates = new ArrayList<>();
       String API_ENDPOINT = "https://nominatim.openstreetmap.org/search?format=json&q=" + city;
@@ -39,14 +40,12 @@ public class GeoCoordinateService {
               .build();
       HttpClient client = HttpClient.newHttpClient();
       HttpResponse<String> post = client.send(request, HttpResponse.BodyHandlers.ofString());
-      ObjectMapper mapper = equipmentApiService.objectMapper();
+      ObjectMapper mapper = appConfiguration.objectMapper();
       JsonNode json = mapper.readTree(post.body());
-      Double latitude;
-      Double longitude;
       if (json.isArray() && json.size() > 0) {
           JsonNode firstResult = json.get(0);
-          latitude = Double.parseDouble(firstResult.get("lat").asText());
-          longitude = Double.parseDouble(firstResult.get("lon").asText());
+          Double latitude = Double.parseDouble(firstResult.get("lat").asText());
+          Double longitude = Double.parseDouble(firstResult.get("lon").asText());
           coordinates.add(latitude);
           coordinates.add(longitude);
       }

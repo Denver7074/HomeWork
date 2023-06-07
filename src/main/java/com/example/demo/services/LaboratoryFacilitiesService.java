@@ -41,7 +41,7 @@ public class LaboratoryFacilitiesService {
      */
     public void notUsedRoom(Long id){
         LaboratoryFacilities room = getById(id);
-        if (room.isUsed()){
+        if (room.getUsed() == true){
             laboratoryFacilitiesRep.notUsed(id);
         }
         else {

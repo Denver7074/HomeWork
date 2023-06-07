@@ -1,17 +1,17 @@
 package com.example.demo.entities.structure;
 
-import com.example.demo.entities.BaseEntity;
-import com.example.demo.entities.room.LaboratoryFacilities;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.ManyToMany;
+import lombok.Data;
+import java.util.List;
+import lombok.AccessLevel;
+import java.util.ArrayList;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import lombok.AccessLevel;
-import lombok.Data;
 import lombok.experimental.FieldDefaults;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.demo.entities.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.demo.entities.room.LaboratoryFacilities;
 
 @Data
 @Entity
@@ -27,21 +27,26 @@ public class Laboratory extends BaseEntity {
   */
   String fullName;
   /**
+  * Широта
+  */
+  Double latitude;
+  /**
+  * Долгота
+  */
+  Double longitude;
+  /**
   * Номер записи в реестре аккредитованных лиц.
   */
   String uniqueNumber;
   /**
   * Сокращенное наименование лаборатории.
   */
-  double longitude;
-  double latitude;
-  //String abbreviatedName;
-  boolean deleted;
+  String abbreviatedName;
+  Boolean deleted = Boolean.FALSE;
   @ManyToOne
   @JsonIgnore
   Organization organization;
   @OneToMany
   @JsonIgnore
   List<LaboratoryFacilities> laboratoryFacilitiesList = new ArrayList<>();
-
 }

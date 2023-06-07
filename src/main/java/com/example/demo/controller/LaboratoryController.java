@@ -22,8 +22,8 @@ public class LaboratoryController {
   @PostMapping
   @SneakyThrows
   @Operation(summary = "Добавить лабораторию")
-  public void addNewLaboratory(@RequestBody Laboratory laboratory, Long organizationId) {
-    laboratoryService.addNewLaboratory(laboratory, organizationId);
+  public void addNewLaboratory(@RequestBody Laboratory laboratory,@RequestParam Long organizationId) {
+    laboratoryService.addNewLaboratory(laboratory,organizationId);
   }
 
   @GetMapping
