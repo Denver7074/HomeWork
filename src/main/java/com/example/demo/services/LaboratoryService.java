@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,19 +32,22 @@ public class LaboratoryService {
   OrganizationService organizationService;
   GeoCoordinateService geoCoordinateService;
 
+
   @SneakyThrows
-  public void addNewLaboratory(Laboratory laboratory, Long organizationId) {
-    if (laboratoryRep.existsByUniqueNumber(laboratory.getUniqueNumber())) {
-      throw new EntityAlreadyExistException("Лаборатория уже существует");
-    } else {
-      Organization organization = organizationService.organizationGetById(organizationId);
-      laboratory.setOrganization(organization);
+  public void addNewLaboratory(Laboratory laboratory) {
+//    if (laboratoryRep.findFirst(laboratory.getUniqueNumber())) {
+//      throw new EntityAlreadyExistException("Лаборатория уже существует");
+//    } else {
+//      Organization organization = organizationService.organizationGetById(organizationId);
+//      laboratory.setOrganization(organization);
       List<Double> geoCoordinate = geoCoordinateService.findGeoCoordinate(laboratory.getCity());
       laboratory.setLatitude(geoCoordinate.get(0));
       laboratory.setLongitude(geoCoordinate.get(1));
+      GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+      laboratory.setPosition(geometryFactory.createPoint(new Coordinate(geoCoordinate.get(1), geoCoordinate.get(0))));
       laboratoryRep.save(laboratory);
       log.info("Create new laboratory. Name {}", laboratory.getFullName());
-    }
+   // }
   }
 
   public List<Laboratory> getAllLaboratory() {
@@ -75,12 +81,11 @@ public class LaboratoryService {
   * Потом проверяем в радиусе заданном пользователем.
   */
   @SneakyThrows
-  public List<Laboratory> nearestLaboratory(String cityCustomer, Double searchRadius) {
-    if (laboratoryRep.existsByCity(cityCustomer)) {
-      return laboratoryRep.findLaboratoriesByCity(cityCustomer);
-    }
-    Map<Laboratory, Double> distance = geoCoordinateService.getDistance(cityCustomer, getAllLaboratory(), searchRadius);
-    return distance.keySet().stream().toList();
+  public Laboratory nearestLaboratory(String cityCustomer) {
+//    if (laboratoryRep.existsByCity(cityCustomer)) {
+//      return laboratoryRep.findLaboratoriesByCity(cityCustomer);
+//    }
+    return geoCoordinateService.distanceCalculation(cityCustomer, getAllLaboratory());
   }
 
 }

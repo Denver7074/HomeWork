@@ -22,14 +22,14 @@ public class LaboratoryController {
   @PostMapping
   @SneakyThrows
   @Operation(summary = "Добавить лабораторию")
-  public void addNewLaboratory(@RequestBody Laboratory laboratory,@RequestParam Long organizationId) {
-    laboratoryService.addNewLaboratory(laboratory,organizationId);
+  public void addNewLaboratory(@RequestBody Laboratory laboratory) {
+    laboratoryService.addNewLaboratory(laboratory);
   }
 
   @GetMapping
   @Operation(summary = "Посмотреть все лаборатории")
-  public List<Laboratory> getAllLaboratory() {
-    return laboratoryService.getAllLaboratory();
+  public String getAllLaboratory() {
+    return laboratoryService.getAllLaboratory().toString();
   }
 
   @DeleteMapping("/{id}")
@@ -47,7 +47,7 @@ public class LaboratoryController {
 
   @GetMapping("/search")
   @Operation(summary = "Поиск ближайших лабораторий")
-  public List<Laboratory> findLaboratory(@RequestParam String city, @RequestParam Double radius) {
-    return laboratoryService.nearestLaboratory(city, radius);
+  public String findLaboratory(@RequestParam String city) {
+    return laboratoryService.nearestLaboratory(city).toString();
   }
 }

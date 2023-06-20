@@ -11,6 +11,9 @@ public interface LaboratoryRep extends JpaRepository<Laboratory, Long> {
 
   List<Laboratory> findLaboratoriesByCity(String city);
 
+  @Query("select l from Laboratory l where l.uniqueNumber = :uniqueNumber")
+  boolean findFirst(@Param("uniqueNumber") String uniqueNumber);
+
   boolean existsByCity(String city);
 
   boolean existsByUniqueNumber(String number);

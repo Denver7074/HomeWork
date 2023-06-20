@@ -9,6 +9,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +33,8 @@ import java.util.Map;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class GeoCoordinateService {
 
-  AppConfiguration appConfiguration;
+    AppConfiguration appConfiguration;
+    GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
   public List<Double> findGeoCoordinate(String city) throws IOException, InterruptedException {
       List<Double> coordinates = new ArrayList<>();
       String API_ENDPOINT = "https://nominatim.openstreetmap.org/search?format=json&q=" + city;
@@ -50,6 +55,23 @@ public class GeoCoordinateService {
           coordinates.add(longitude);
       }
       return coordinates;
+  }
+
+  public Laboratory distanceCalculation(String city, List<Laboratory> laboratories) throws IOException, InterruptedException {
+      List<Double> geoCoordinate = findGeoCoordinate(city);
+      double lat1 = geoCoordinate.get(0);
+      double lon1 = geoCoordinate.get(1);
+      Point point = geometryFactory.createPoint(new Coordinate(lon1,lat1));
+      Double minDistance = Double.MAX_VALUE;
+      Laboratory laboratory = laboratories.get(0);
+      for (Laboratory l : laboratories) {
+          Double distance = point.distance(l.getPosition());
+          if (distance < minDistance) {
+              minDistance = distance;
+              laboratory = l;
+          }
+      }
+      return laboratory;
   }
 
   public Map<Laboratory,Double> getDistance(String city, List<Laboratory> laboratories, Double searchRadius) throws IOException, InterruptedException {
